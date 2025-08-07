@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Subscription Management</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="admin-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="admin-body">
+    <!-- Admin Header -->
+    <header class="admin-header">
+        <div class="admin-container">
+            <div class="header-content">
+                <h1><i class="fas fa-cog"></i> Admin Dashboard</h1>
+                <nav class="admin-nav">
+                    <a href="#dashboard" class="nav-link active">Dashboard</a>
+                    <a href="#subscribers" class="nav-link">Subscribers</a>
+                    <a href="#analytics" class="nav-link">Analytics</a>
+                    <a href="#settings" class="nav-link">Settings</a>
+                    <a href="../index.html" class="nav-link">View Site</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="admin-section active">
+            <div class="admin-container">
+                <h2>Subscription Overview</h2>
+                
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalSubscribers">1,247</h3>
+                            <p>Total Subscribers</p>
+                            <span class="stat-change positive">+12% this week</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="newToday">23</h3>
+                            <p>New Today</p>
+                            <span class="stat-change positive">+5 from yesterday</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="conversionRate">8.4%</h3>
+                            <p>Conversion Rate</p>
+                            <span class="stat-change positive">+2.1% this month</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-envelope-open"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="openRate">34.7%</h3>
+                            <p>Email Open Rate</p>
+                            <span class="stat-change neutral">Same as last week</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Subscribers -->
+                <div class="recent-subscribers">
+                    <h3>Recent Subscribers</h3>
+                    <div class="subscribers-list">
+                        <div class="subscriber-item">
+                            <div class="subscriber-info">
+                                <strong>Sarah Johnson</strong>
+                                <span>sarah.j@email.com</span>
+                            </div>
+                            <div class="subscriber-meta">
+                                <span class="time">2 minutes ago</span>
+                                <span class="source">Main Site</span>
+                            </div>
+                        </div>
+
+                        <div class="subscriber-item">
+                            <div class="subscriber-info">
+                                <strong>Mike Chen</strong>
+                                <span>mike.chen@business.com</span>
+                            </div>
+                            <div class="subscriber-meta">
+                                <span class="time">15 minutes ago</span>
+                                <span class="source">Main Site</span>
+                            </div>
+                        </div>
+
+                        <div class="subscriber-item">
+                            <div class="subscriber-info">
+                                <strong>Lisa Rodriguez</strong>
+                                <span>lisa.r@gmail.com</span>
+                            </div>
+                            <div class="subscriber-meta">
+                                <span class="time">1 hour ago</span>
+                                <span class="source">Main Site</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Subscribers Management Section -->
+        <section id="subscribers" class="admin-section">
+            <div class="admin-container">
+                <div class="section-header">
+                    <h2>Subscriber Management</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-secondary" onclick="exportSubscribers()">
+                            <i class="fas fa-download"></i> Export CSV
+                        </button>
+                        <button class="btn btn-primary" onclick="addSubscriber()">
+                            <i class="fas fa-plus"></i> Add Subscriber
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Search and Filter -->
+                <div class="filters">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchSubscribers" placeholder="Search subscribers...">
+                    </div>
+                    <select id="filterSource">
+                        <option value="">All Sources</option>
+                        <option value="main-site">Main Site</option>
+                        <option value="social-media">Social Media</option>
+                        <option value="referral">Referral</option>
+                    </select>
+                    <select id="filterDate">
+                        <option value="">All Time</option>
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                    </select>
+                </div>
+
+                <!-- Subscribers Table -->
+                <div class="table-container">
+                    <table class="subscribers-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="selectAll">
+                                </th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Date Subscribed</th>
+                                <th>Source</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subscribersTableBody">
+                            <!-- Subscriber rows will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <button class="page-btn" id="prevPage">Previous</button>
+                    <span class="page-info">Page 1 of 25</span>
+                    <button class="page-btn" id="nextPage">Next</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics" class="admin-section">
+            <div class="admin-container">
+                <h2>Analytics & Reports</h2>
+                
+                <div class="analytics-grid">
+                    <div class="chart-container">
+                        <h3>Subscription Growth</h3>
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-area"></i>
+                            <p>Chart visualization would go here</p>
+                            <small>Integrate with Chart.js or similar library</small>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <h3>Traffic Sources</h3>
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-pie"></i>
+                            <p>Pie chart visualization would go here</p>
+                            <small>Shows breakdown of subscription sources</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analytics-summary">
+                    <h3>Key Metrics</h3>
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <span class="metric-label">Best Performing Day</span>
+                            <span class="metric-value">Tuesday</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-label">Peak Hour</span>
+                            <span class="metric-value">2:00 PM</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-label">Top Source</span>
+                            <span class="metric-value">Direct Traffic</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="metric-label">Avg. Monthly Growth</span>
+                            <span class="metric-value">247 subscribers</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section id="settings" class="admin-section">
+            <div class="admin-container">
+                <h2>Settings</h2>
+                
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>Email Configuration</h3>
+                        <form class="settings-form">
+                            <div class="form-group">
+                                <label for="emailService">Email Service Provider</label>
+                                <select id="emailService">
+                                    <option value="mailchimp">Mailchimp</option>
+                                    <option value="convertkit">ConvertKit</option>
+                                    <option value="aweber">AWeber</option>
+                                    <option value="custom">Custom API</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="apiKey">API Key</label>
+                                <input type="password" id="apiKey" placeholder="Enter your API key">
+                            </div>
+                            <div class="form-group">
+                                <label for="listId">List/Audience ID</label>
+                                <input type="text" id="listId" placeholder="Enter list ID">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Email Settings</button>
+                        </form>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>Notification Settings</h3>
+                        <form class="settings-form">
+                            <div class="form-group checkbox-group">
+                                <label>
+                                    <input type="checkbox" checked>
+                                    Email me for new subscribers
+                                </label>
+                            </div>
+                            <div class="form-group checkbox-group">
+                                <label>
+                                    <input type="checkbox" checked>
+                                    Daily summary report
+                                </label>
+                            </div>
+                            <div class="form-group checkbox-group">
+                                <label>
+                                    <input type="checkbox">
+                                    Weekly analytics report
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="notificationEmail">Notification Email</label>
+                                <input type="email" id="notificationEmail" value="michael@yourdomain.com">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Notifications</button>
+                        </form>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>Data Management</h3>
+                        <div class="data-actions">
+                            <button class="btn btn-secondary" onclick="exportAllData()">
+                                <i class="fas fa-download"></i> Export All Data
+                            </button>
+                            <button class="btn btn-warning" onclick="clearOldData()">
+                                <i class="fas fa-trash"></i> Clear Old Data (90+ days)
+                            </button>
+                            <button class="btn btn-danger" onclick="resetAllData()">
+                                <i class="fas fa-exclamation-triangle"></i> Reset All Data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Add Subscriber Modal -->
+    <div id="addSubscriberModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Subscriber</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="addSubscriberForm">
+                <div class="form-group">
+                    <label for="subscriberName">Name</label>
+                    <input type="text" id="subscriberName" required>
+                </div>
+                <div class="form-group">
+                    <label for="subscriberEmail">Email</label>
+                    <input type="email" id="subscriberEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="subscriberSource">Source</label>
+                    <select id="subscriberSource">
+                        <option value="manual">Manual Entry</option>
+                        <option value="main-site">Main Site</option>
+                        <option value="social-media">Social Media</option>
+                        <option value="referral">Referral</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Subscriber</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin-script.js"></script>
+</body>
+</html>
