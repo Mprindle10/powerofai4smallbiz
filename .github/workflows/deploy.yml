@@ -1,0 +1,51 @@
+name: Deploy to Netlify
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Install Netlify CLI
+      run: npm install -g netlify-cli
+      
+    - name: Deploy to Netlify
+      run: |
+        if [ "${{ github.event_name }}" == "push" ]; then
+          # Production deployment for main branch
+          netlify deploy --prod --dir=. --site=${{ secrets.NETLIFY_SITE_ID }} --auth=${{ secrets.NETLIFY_AUTH_TOKEN }}
+        else
+          # Preview deployment for pull requests
+          netlify deploy --dir=. --site=${{ secrets.NETLIFY_SITE_ID }} --auth=${{ secrets.NETLIFY_AUTH_TOKEN }}
+        fi
+      
+    - name: Comment deployment URL
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: '🚀 Preview deployment ready! Check your Netlify dashboard for the preview URL.'
+          })
+
+    - name: Deployment Success
+      run: |
+        echo "✅ Deployment completed successfully!"
+        echo "🌐 Live site: https://powerofai4smallbiz.netlify.app"
+        echo "📊 Admin panel: https://powerofai4smallbiz.netlify.app/admin"
