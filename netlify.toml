@@ -21,11 +21,10 @@
   status = 200
 
 [[redirects]]
-  # Handle SPA routing (if needed)
-  from = "/*"
-  to = "/index.html"
+  # Redirect /admin/* to admin/index.html
+  from = "/admin/*"
+  to = "/admin/index.html"
   status = 200
-  conditions = {Role = ["admin"]}
 
 # Headers for security and performance
 [[headers]]
