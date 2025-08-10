@@ -15,7 +15,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-REPO_NAME="powerofaismallbiz"
+REPO_NAME="powerofai4smallbiz"
 BRANCH="main"
 NETLIFY_SITE_NAME="powerofai4smallbiz"
 
