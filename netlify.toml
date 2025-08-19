@@ -13,6 +13,10 @@
   # Environment variables (add any you need)
   NODE_VERSION = "18"
 
+# Form handling
+[[forms]]
+  name = "ai-kit-signup"
+  
 # Redirect rules
 [[redirects]]
   # Redirect admin paths to admin/index.html

@@ -4,30 +4,27 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (form) {
         form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
             const name = document.getElementById('name').value.trim();
             const email = document.getElementById('email').value.trim();
             
             // Validate inputs
             if (!name) {
+                e.preventDefault();
                 alert('Please enter your name');
                 return;
             }
             
             if (!email || !isValidEmail(email)) {
+                e.preventDefault();
                 alert('Please enter a valid email address');
                 return;
             }
             
-            // Store subscriber data locally
+            // Store subscriber data locally for your records
             storeSubscriber(name, email);
             
-            // Show success message
-            showSuccessMessage(name);
-            
-            // Clear form
-            form.reset();
+            // Form will submit normally to Netlify
+            // User will be redirected to success.html
         });
     }
     
