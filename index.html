@@ -190,14 +190,27 @@
             <h2><i class="fas fa-inbox"></i> Get Instant Access — Free for a Limited Time</h2>
             <p class="form-intro"><i class="fas fa-hand-point-right"></i> Enter your info below and we'll send your AI Starter Kit right away.</p>
             
-            <div class="contact-info" style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;">
-                <h3>Get Your FREE AI Starter Kit</h3>
-                <p>Due to technical issues with automated forms, please email us directly:</p>
-                <p><strong>Email:</strong> powerofai4smallbiz@gmail.com</p>
-                <p><strong>Subject:</strong> Send me the AI Starter Kit</p>
-                <p><strong>Include:</strong> Your name and the best email to send the kit to</p>
-                <p style="margin-top: 15px; color: #666;">We'll send your FREE AI kit within 24 hours!</p>
-            </div>
+            <form name="ai-kit-request" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+                <input type="hidden" name="form-name" value="ai-kit-request" />
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Name:</label>
+                    <input type="text" name="name" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" />
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Email:</label>
+                    <input type="email" name="email" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" />
+                </div>
+                
+                <div style="display: none;">
+                    <input name="bot-field" />
+                </div>
+                
+                <button type="submit" style="background: #007cba; color: white; padding: 12px 30px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%;">
+                    Get My Free AI Kit Now
+                </button>
+            </form>
 
             <div class="form-benefits">
                 <ul>
