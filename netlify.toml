@@ -15,7 +15,11 @@
 
 # Form handling and notifications
 [[forms]]
-  name = "ai-kit-signup"
+  name = "ai-kit-request"
+  
+# Email notifications for form submissions
+[notifications.email]
+  addresses = ["powerofai4smallbiz@gmail.com"]
   
 # Redirect rules
 [[redirects]]
