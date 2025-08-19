@@ -1,38 +1,5 @@
 // Form submission handling
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('aiKitForm');
-    
-    if (form) {
-        form.addEventListener('submit', function(e) {
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            
-            // Validate inputs
-            if (!name) {
-                e.preventDefault();
-                alert('Please enter your name');
-                return;
-            }
-            
-            if (!email || !isValidEmail(email)) {
-                e.preventDefault();
-                alert('Please enter a valid email address');
-                return;
-            }
-            
-            // Set the reply-to field to the user's email
-            document.getElementById('_replyto').value = email;
-            
-            // Update subject line with the person's name
-            const subjectField = document.querySelector('input[name="_subject"]');
-            if (subjectField) {
-                subjectField.value = `New AI Kit Request from ${name}`;
-            }
-            
-            // Form will submit to Formspree and send email directly to powerofai4smallbiz@gmail.com
-        });
-    }
-    
     // Smooth scrolling for CTA buttons
     const ctaButtons = document.querySelectorAll('a[href="#form"]');
     ctaButtons.forEach(button => {
