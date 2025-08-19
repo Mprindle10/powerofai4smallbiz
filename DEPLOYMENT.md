@@ -127,4 +127,4 @@ git push origin main
 **Need Help?**
 - Netlify Documentation: https://docs.netlify.com
 - GitHub Issues: Create an issue in this repository
-- Contact: powerofai4smasllbiz@gmail.com
+- Contact: powerofai4smallbiz@gmail.com

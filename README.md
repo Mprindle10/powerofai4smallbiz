@@ -87,7 +87,7 @@ python3 -m http.server 8000
 ## 📧 Contact Integration
 
 The website includes email capture functionality that sends submissions to:
-- **Email:** powerofai4smasllbiz@gmail.com
+- **Email:** powerofai4smallbiz@gmail.com
 - **Form Action:** mailto integration for immediate notifications
 
 ## 🎯 Target Audience

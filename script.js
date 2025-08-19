@@ -120,6 +120,8 @@ function storeSubscriber(name, email) {
     
     // Also send notification email data to console for debugging
     console.log('New AI Kit Subscriber:', newSubscriber);
+    console.log(`📧 Send welcome email to: ${email}`);
+    console.log(`📋 Copy this data: Name: ${name}, Email: ${email}, Date: ${new Date().toLocaleString()}`);
     
     // Optional: Send to a webhook or service (you can add this later)
     // sendToWebhook(newSubscriber);
