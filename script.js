@@ -1,5 +1,14 @@
-// Form submission handling
+// Form submission handling for Netlify Forms
 document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form[name="ai-kit-request"]');
+    
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            // Let the form submit naturally to Netlify - no preventDefault
+            console.log('Form submitting to Netlify');
+        });
+    }
+    
     // Smooth scrolling for CTA buttons
     const ctaButtons = document.querySelectorAll('a[href="#form"]');
     ctaButtons.forEach(button => {
