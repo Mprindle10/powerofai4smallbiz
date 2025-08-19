@@ -190,19 +190,19 @@
             <h2><i class="fas fa-inbox"></i> Get Instant Access — Free for a Limited Time</h2>
             <p class="form-intro"><i class="fas fa-hand-point-right"></i> Enter your info below and we'll send your AI Starter Kit right away.</p>
             
-            <form id="contact-form">
-                <div style="margin-bottom: 15px;">
-                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Name:</label>
-                    <input type="text" id="name" name="name" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" />
+            <form id="contact-form" style="max-width: 600px; margin: 0 auto;">
+                <div style="margin-bottom: 25px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: bold; font-size: 1.1rem; color: white;">Name:</label>
+                    <input type="text" id="name" name="name" required style="width: 100%; padding: 18px; border: 2px solid #ddd; border-radius: 10px; font-size: 1.1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" />
                 </div>
                 
-                <div style="margin-bottom: 15px;">
-                    <label style="display: block; margin-bottom: 5px; font-weight: bold;">Email:</label>
-                    <input type="email" id="email" name="email" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" />
+                <div style="margin-bottom: 25px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: bold; font-size: 1.1rem; color: white;">Email:</label>
+                    <input type="email" id="email" name="email" required style="width: 100%; padding: 18px; border: 2px solid #ddd; border-radius: 10px; font-size: 1.1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" />
                 </div>
                 
-                <button type="submit" id="submit-btn" style="background: #007cba; color: white; padding: 12px 30px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%;">
-                    Get My Free AI Kit Now
+                <button type="submit" id="submit-btn" style="background: linear-gradient(135deg, #FF6B35, #F7931E); color: white; padding: 20px 40px; border: none; border-radius: 10px; font-size: 1.3rem; font-weight: 600; cursor: pointer; width: 100%; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3); transition: all 0.3s ease;">
+                    <i class="fas fa-download"></i> Get My Free AI Kit Now
                 </button>
             </form>
 
@@ -286,6 +286,19 @@
     </footer>
 
     <script>
+        // Add hover effects to the submit button
+        const submitBtn = document.getElementById('submit-btn');
+        
+        submitBtn.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px)';
+            this.style.boxShadow = '0 6px 20px rgba(255, 107, 53, 0.4)';
+        });
+        
+        submitBtn.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '0 4px 15px rgba(255, 107, 53, 0.3)';
+        });
+
         document.getElementById('contact-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -305,7 +318,7 @@
             }
             
             // Show loading state
-            submitBtn.textContent = 'Sending...';
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
             submitBtn.disabled = true;
             messageDiv.style.display = 'none';
             
@@ -336,7 +349,7 @@
                 messageDiv.textContent = 'Sorry, there was an error. Please try again or email us directly at powerofai4smallbiz@gmail.com';
                 
                 // Reset button
-                submitBtn.textContent = 'Get My Free AI Kit Now';
+                submitBtn.innerHTML = '<i class="fas fa-download"></i> Get My Free AI Kit Now';
                 submitBtn.disabled = false;
             }
         });
