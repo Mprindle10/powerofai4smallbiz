@@ -6,8 +6,8 @@
   # Directory to publish (root directory for static HTML sites)
   publish = "."
   
-  # Functions directory (not needed for this project)
-  functions = ""
+  # Functions directory
+  functions = "netlify/functions"
 
 [build.environment]
   # Environment variables (add any you need)

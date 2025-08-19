@@ -1,0 +1,8 @@
+{
+  "name": "powerofai-netlify-functions",
+  "version": "1.0.0",
+  "description": "Netlify functions for AI business website",
+  "dependencies": {
+    "nodemailer": "^6.9.7"
+  }
+}

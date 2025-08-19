@@ -190,21 +190,23 @@
             <h2><i class="fas fa-inbox"></i> Get Instant Access — Free for a Limited Time</h2>
             <p class="form-intro"><i class="fas fa-hand-point-right"></i> Enter your info below and we'll send your AI Starter Kit right away.</p>
             
-            <form name="ai-kit-request" method="POST" action="contact.php">
+            <form id="contact-form">
                 <div style="margin-bottom: 15px;">
                     <label style="display: block; margin-bottom: 5px; font-weight: bold;">Name:</label>
-                    <input type="text" name="name" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" />
+                    <input type="text" id="name" name="name" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" />
                 </div>
                 
                 <div style="margin-bottom: 15px;">
                     <label style="display: block; margin-bottom: 5px; font-weight: bold;">Email:</label>
-                    <input type="email" name="email" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" />
+                    <input type="email" id="email" name="email" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" />
                 </div>
                 
-                <button type="submit" style="background: #007cba; color: white; padding: 12px 30px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%;">
+                <button type="submit" id="submit-btn" style="background: #007cba; color: white; padding: 12px 30px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; width: 100%;">
                     Get My Free AI Kit Now
                 </button>
             </form>
+
+            <div id="form-message" style="margin-top: 15px; padding: 10px; border-radius: 5px; display: none;"></div>
 
             <div class="form-benefits">
                 <ul>
@@ -282,6 +284,50 @@
             <p>Contact: powerofai4smallbiz@gmail.com</p>
         </div>
     </footer>
+
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submit-btn');
+            const messageDiv = document.getElementById('form-message');
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            
+            // Show loading state
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            messageDiv.style.display = 'none';
+            
+            try {
+                const response = await fetch('/.netlify/functions/send-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email }),
+                });
+                
+                if (response.ok) {
+                    // Success - redirect to success page
+                    window.location.href = '/success.html';
+                } else {
+                    throw new Error('Failed to send');
+                }
+            } catch (error) {
+                // Show error message
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#f8d7da';
+                messageDiv.style.color = '#721c24';
+                messageDiv.style.border = '1px solid #f5c6cb';
+                messageDiv.textContent = 'Sorry, there was an error sending your request. Please try again.';
+                
+                // Reset button
+                submitBtn.textContent = 'Get My Free AI Kit Now';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
 
 </body>
 </html>
