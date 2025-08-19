@@ -13,7 +13,7 @@
   # Environment variables (add any you need)
   NODE_VERSION = "18"
 
-# Form handling
+# Form handling and notifications
 [[forms]]
   name = "ai-kit-signup"
   
