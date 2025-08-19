@@ -23,6 +23,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // Set the reply-to field to the user's email
             document.getElementById('_replyto').value = email;
             
+            // Update subject line with the person's name
+            const subjectField = document.querySelector('input[name="_subject"]');
+            if (subjectField) {
+                subjectField.value = `New AI Kit Request from ${name}`;
+            }
+            
             // Form will submit to Formspree and send email directly to powerofai4smallbiz@gmail.com
         });
     }
