@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Kit Requests - Admin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            border-bottom: 2px solid #007cba;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        .request-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #f9f9f9;
+        }
+        .request-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .name {
+            font-weight: bold;
+            color: #007cba;
+        }
+        .email {
+            color: #666;
+        }
+        .timestamp {
+            color: #888;
+            font-size: 12px;
+        }
+        .copy-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .copy-btn:hover {
+            background: #218838;
+        }
+        .email-template {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-family: monospace;
+            font-size: 12px;
+            display: none;
+        }
+        .show-template {
+            background: #007cba;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .clear-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .stats {
+            background: #007cba;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 AI Kit Requests Admin</h1>
+            <p>Manage all requests for your AI Starter Kit</p>
+        </div>
+        
+        <div class="stats">
+            <h3 id="stats-count">0 Total Requests</h3>
+        </div>
+        
+        <button class="clear-btn" onclick="clearRequests()">Clear All Requests</button>
+        
+        <div id="requests-container">
+            <p>No requests yet. Check back after someone submits the form on your website.</p>
+        </div>
+    </div>
+
+    <script>
+        function loadRequests() {
+            const requests = JSON.parse(localStorage.getItem('aiKitRequests') || '[]');
+            const container = document.getElementById('requests-container');
+            const statsCount = document.getElementById('stats-count');
+            
+            statsCount.textContent = `${requests.length} Total Requests`;
+            
+            if (requests.length === 0) {
+                container.innerHTML = '<p>No requests yet. Check back after someone submits the form on your website.</p>';
+                return;
+            }
+            
+            // Sort by newest first
+            requests.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            container.innerHTML = requests.map((request, index) => `
+                <div class="request-card">
+                    <div class="request-header">
+                        <div>
+                            <div class="name">${request.name}</div>
+                            <div class="email">${request.email}</div>
+                        </div>
+                        <div class="timestamp">${new Date(request.timestamp).toLocaleString()}</div>
+                    </div>
+                    
+                    <div>
+                        <button class="copy-btn" onclick="copyEmail('${request.email}')">Copy Email</button>
+                        <button class="copy-btn" onclick="copySubject('${request.subject}')">Copy Subject</button>
+                        <button class="show-template" onclick="toggleTemplate(${index})">Show Email Template</button>
+                    </div>
+                    
+                    <div class="email-template" id="template-${index}">
+                        <strong>To:</strong> ${request.email}<br>
+                        <strong>Subject:</strong> Your FREE AI Starter Kit is Here!<br><br>
+                        
+                        Hi ${request.name},<br><br>
+                        
+                        Thank you for requesting the AI Starter Kit! I'm excited to help you transform your business with AI.<br><br>
+                        
+                        Attached to this email, you'll find your complete AI Starter Kit:<br>
+                        • 50+ AI Prompts (attach: 50-ai-prompts.md)<br>
+                        • AI Tool Cheat Sheet (attach: ai-tool-cheat-sheet.md)<br>
+                        • 30-Day Implementation Plan (attach: 30-day-ai-plan.md)<br>
+                        • Chatbot Script Template (attach: chatbot-script-template.md)<br><br>
+                        
+                        Start with the 50+ AI Prompts - you can use these today to save hours on content creation.<br><br>
+                        
+                        Questions? Just reply to this email.<br><br>
+                        
+                        Best regards,<br>
+                        Michael<br>
+                        AI for Small Business<br>
+                        powerofai4smallbiz@gmail.com
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function copyEmail(email) {
+            navigator.clipboard.writeText(email);
+            alert('Email copied to clipboard!');
+        }
+        
+        function copySubject(subject) {
+            navigator.clipboard.writeText('Your FREE AI Starter Kit is Here!');
+            alert('Subject copied to clipboard!');
+        }
+        
+        function toggleTemplate(index) {
+            const template = document.getElementById(`template-${index}`);
+            template.style.display = template.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        function clearRequests() {
+            if (confirm('Are you sure you want to clear all requests? This cannot be undone.')) {
+                localStorage.removeItem('aiKitRequests');
+                loadRequests();
+            }
+        }
+        
+        // Load requests on page load
+        loadRequests();
+        
+        // Refresh every 30 seconds
+        setInterval(loadRequests, 30000);
+    </script>
+</body>
+</html>

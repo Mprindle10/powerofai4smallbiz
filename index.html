@@ -291,36 +291,49 @@
             
             const submitBtn = document.getElementById('submit-btn');
             const messageDiv = document.getElementById('form-message');
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            
+            // Validate inputs
+            if (!name || !email) {
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#f8d7da';
+                messageDiv.style.color = '#721c24';
+                messageDiv.style.border = '1px solid #f5c6cb';
+                messageDiv.textContent = 'Please fill in both name and email.';
+                return;
+            }
             
             // Show loading state
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
             messageDiv.style.display = 'none';
             
+            // Create request data
+            const requestData = {
+                name: name,
+                email: email,
+                timestamp: new Date().toISOString(),
+                subject: `AI Kit Request from ${name} - ${email}`,
+                status: 'pending'
+            };
+            
             try {
-                const response = await fetch('/.netlify/functions/send-email', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ name, email }),
-                });
+                // Get existing requests from localStorage
+                let requests = JSON.parse(localStorage.getItem('aiKitRequests') || '[]');
+                requests.push(requestData);
+                localStorage.setItem('aiKitRequests', JSON.stringify(requests));
                 
-                if (response.ok) {
-                    // Success - redirect to success page
-                    window.location.href = '/success.html';
-                } else {
-                    throw new Error('Failed to send');
-                }
+                // Show success and redirect
+                window.location.href = '/success.html';
+                
             } catch (error) {
                 // Show error message
                 messageDiv.style.display = 'block';
                 messageDiv.style.backgroundColor = '#f8d7da';
                 messageDiv.style.color = '#721c24';
                 messageDiv.style.border = '1px solid #f5c6cb';
-                messageDiv.textContent = 'Sorry, there was an error sending your request. Please try again.';
+                messageDiv.textContent = 'Sorry, there was an error. Please try again or email us directly at powerofai4smallbiz@gmail.com';
                 
                 // Reset button
                 submitBtn.textContent = 'Get My Free AI Kit Now';
