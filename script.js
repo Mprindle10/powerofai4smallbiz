@@ -20,16 +20,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
+            // Store subscriber data locally
+            storeSubscriber(name, email);
+            
             // Show success message
             showSuccessMessage(name);
-            
-            // Send email via mailto
-            const subject = 'New AI Kit Request from ' + name;
-            const body = 'Name: ' + name + '%0D%0AEmail: ' + email + '%0D%0A%0D%0APlease send the AI Starter Kit to this email address.';
-            const mailtoLink = 'mailto:powerofai4smasllbiz@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + body;
-            
-            // Open default email client
-            window.location.href = mailtoLink;
             
             // Clear form
             form.reset();
@@ -88,6 +83,48 @@ function isValidEmail(email) {
     return emailRegex.test(email);
 }
 
+// Store subscriber data locally
+function storeSubscriber(name, email) {
+    // Get existing subscribers from localStorage
+    let subscribers = [];
+    const existingData = localStorage.getItem('aiKitSubscribers');
+    if (existingData) {
+        try {
+            subscribers = JSON.parse(existingData);
+        } catch (e) {
+            console.error('Error parsing subscriber data:', e);
+            subscribers = [];
+        }
+    }
+    
+    // Add new subscriber
+    const newSubscriber = {
+        name: name,
+        email: email,
+        date: new Date().toISOString(),
+        timestamp: Date.now()
+    };
+    
+    // Check if email already exists
+    const existingIndex = subscribers.findIndex(sub => sub.email === email);
+    if (existingIndex > -1) {
+        // Update existing subscriber
+        subscribers[existingIndex] = newSubscriber;
+    } else {
+        // Add new subscriber
+        subscribers.push(newSubscriber);
+    }
+    
+    // Save back to localStorage
+    localStorage.setItem('aiKitSubscribers', JSON.stringify(subscribers));
+    
+    // Also send notification email data to console for debugging
+    console.log('New AI Kit Subscriber:', newSubscriber);
+    
+    // Optional: Send to a webhook or service (you can add this later)
+    // sendToWebhook(newSubscriber);
+}
+
 function showSuccessMessage(name) {
     const existingMessage = document.querySelector('.success-message');
     if (existingMessage) {
@@ -100,20 +137,34 @@ function showSuccessMessage(name) {
         <div style="
             background: linear-gradient(135deg, #2ECC71, #27ae60);
             color: white;
-            padding: 20px;
-            border-radius: 8px;
+            padding: 25px;
+            border-radius: 12px;
             margin: 20px 0;
             text-align: center;
             animation: slideIn 0.5s ease;
+            box-shadow: 0 8px 30px rgba(46, 204, 113, 0.3);
         ">
-            <h3>🎉 Success, ${name}!</h3>
-            <p>Your AI Starter Kit is on its way to your inbox.<br>
-            Check your email in the next few minutes!</p>
+            <h3 style="margin: 0 0 15px 0; font-size: 24px;">🎉 Welcome to the AI Revolution, ${name}!</h3>
+            <p style="margin: 0 0 15px 0; font-size: 16px; opacity: 0.95;">
+                You're all set! Your AI Starter Kit request has been received.<br>
+                <strong>Check your email within the next few minutes</strong> for your complete toolkit.
+            </p>
+            <div style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                <p style="margin: 0; font-size: 14px;">
+                    📧 Email sent to: <strong>${document.getElementById('email').value}</strong><br>
+                    📅 ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}
+                </p>
+            </div>
         </div>
     `;
     
     const form = document.getElementById('aiKitForm');
     form.parentNode.insertBefore(successMessage, form.nextSibling);
+    
+    // Auto-hide after 10 seconds
+    setTimeout(() => {
+        hideSuccessMessage();
+    }, 10000);
 }
 
 function hideSuccessMessage() {
