@@ -190,8 +190,11 @@
             <h2><i class="fas fa-inbox"></i> Get Instant Access — Free for a Limited Time</h2>
             <p class="form-intro"><i class="fas fa-hand-point-right"></i> Enter your info below and we'll send your AI Starter Kit right away.</p>
             
-            <form class="opt-in-form" id="aiKitForm" name="ai-kit-signup" method="POST" data-netlify="true" action="/success.html">
-                <input type="hidden" name="form-name" value="ai-kit-signup">
+            <form class="opt-in-form" id="aiKitForm" action="https://formspree.io/f/xkndqpyo" method="POST">
+                <input type="hidden" name="_replyto" id="_replyto">
+                <input type="hidden" name="_subject" value="🤖 New AI Kit Request">
+                <input type="hidden" name="_next" value="https://powerofai4smallbiz.netlify.app/success.html">
+                <input type="hidden" name="_email" value="powerofai4smallbiz@gmail.com">
                 
                 <div class="form-group">
                     <label for="name">Name</label>
@@ -204,7 +207,7 @@
                 </div>
                 
                 <div class="form-group" style="display: none;">
-                    <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+                    <label>Don't fill this out if you're human: <input name="_gotcha" /></label>
                 </div>
                 
                 <button type="submit" class="cta-button primary">Get My Free AI Kit Now</button>

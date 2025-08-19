@@ -20,11 +20,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // Store subscriber data locally for your records
-            storeSubscriber(name, email);
+            // Set the reply-to field to the user's email
+            document.getElementById('_replyto').value = email;
             
-            // Form will submit normally to Netlify
-            // User will be redirected to success.html
+            // Form will submit to Formspree and send email directly to powerofai4smallbiz@gmail.com
         });
     }
     
@@ -78,102 +77,6 @@ document.addEventListener('DOMContentLoaded', function() {
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
-}
-
-// Store subscriber data locally
-function storeSubscriber(name, email) {
-    // Get existing subscribers from localStorage
-    let subscribers = [];
-    const existingData = localStorage.getItem('aiKitSubscribers');
-    if (existingData) {
-        try {
-            subscribers = JSON.parse(existingData);
-        } catch (e) {
-            console.error('Error parsing subscriber data:', e);
-            subscribers = [];
-        }
-    }
-    
-    // Add new subscriber
-    const newSubscriber = {
-        name: name,
-        email: email,
-        date: new Date().toISOString(),
-        timestamp: Date.now()
-    };
-    
-    // Check if email already exists
-    const existingIndex = subscribers.findIndex(sub => sub.email === email);
-    if (existingIndex > -1) {
-        // Update existing subscriber
-        subscribers[existingIndex] = newSubscriber;
-    } else {
-        // Add new subscriber
-        subscribers.push(newSubscriber);
-    }
-    
-    // Save back to localStorage
-    localStorage.setItem('aiKitSubscribers', JSON.stringify(subscribers));
-    
-    // Also send notification email data to console for debugging
-    console.log('New AI Kit Subscriber:', newSubscriber);
-    console.log(`📧 Send welcome email to: ${email}`);
-    console.log(`📋 Copy this data: Name: ${name}, Email: ${email}, Date: ${new Date().toLocaleString()}`);
-    
-    // Optional: Send to a webhook or service (you can add this later)
-    // sendToWebhook(newSubscriber);
-}
-
-function showSuccessMessage(name) {
-    const existingMessage = document.querySelector('.success-message');
-    if (existingMessage) {
-        existingMessage.remove();
-    }
-    
-    const successMessage = document.createElement('div');
-    successMessage.className = 'success-message';
-    successMessage.innerHTML = `
-        <div style="
-            background: linear-gradient(135deg, #2ECC71, #27ae60);
-            color: white;
-            padding: 25px;
-            border-radius: 12px;
-            margin: 20px 0;
-            text-align: center;
-            animation: slideIn 0.5s ease;
-            box-shadow: 0 8px 30px rgba(46, 204, 113, 0.3);
-        ">
-            <h3 style="margin: 0 0 15px 0; font-size: 24px;">🎉 Welcome to the AI Revolution, ${name}!</h3>
-            <p style="margin: 0 0 15px 0; font-size: 16px; opacity: 0.95;">
-                You're all set! Your AI Starter Kit request has been received.<br>
-                <strong>Check your email within the next few minutes</strong> for your complete toolkit.
-            </p>
-            <div style="background: rgba(255,255,255,0.15); padding: 15px; border-radius: 8px; margin-top: 15px;">
-                <p style="margin: 0; font-size: 14px;">
-                    📧 Email sent to: <strong>${document.getElementById('email').value}</strong><br>
-                    📅 ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}
-                </p>
-            </div>
-        </div>
-    `;
-    
-    const form = document.getElementById('aiKitForm');
-    form.parentNode.insertBefore(successMessage, form.nextSibling);
-    
-    // Auto-hide after 10 seconds
-    setTimeout(() => {
-        hideSuccessMessage();
-    }, 10000);
-}
-
-function hideSuccessMessage() {
-    const successMessage = document.querySelector('.success-message');
-    if (successMessage) {
-        successMessage.style.animation = 'slideOut 0.5s ease';
-        setTimeout(() => {
-            successMessage.remove();
-        }, 500);
-    }
 }
 
 // Add CSS animations dynamically
